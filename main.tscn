@@ -1,0 +1,117 @@
+[gd_scene load_steps=12 format=3 uid="uid://bhd1qhhslbffe"]
+
+[ext_resource type="PackedScene" uid="uid://dyyx507xg4muv" path="res://player.tscn" id="1_8lvi8"]
+[ext_resource type="Script" path="res://main.gd" id="1_jfje4"]
+[ext_resource type="PackedScene" uid="uid://bmvsxiieby06a" path="res://mob.tscn" id="2_bok3b"]
+[ext_resource type="FontFile" uid="uid://cjk6bxpxiygtc" path="res://fonts/Montserrat-Medium.ttf" id="4_w3luq"]
+[ext_resource type="Script" path="res://score_label.gd" id="5_fiu0p"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qvu5i"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2h0bt"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6jinm"]
+albedo_color = Color(0.831373, 0.113725, 0.788235, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_j0xks"]
+material = SubResource("StandardMaterial3D_6jinm")
+
+[sub_resource type="Curve3D" id="Curve3D_ra0d2"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -11, 0, 15, 0, 0, 0, 0, 0, 0, 12, 0, 15, 0, 0, 0, 0, 0, 0, 29, 0, -19, 0, 0, 0, 0, 0, 0, -31, 0, -19, 0, 0, 0, 0, 0, 0, -11, 0, 15),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[sub_resource type="Theme" id="Theme_vteln"]
+default_font = ExtResource("4_w3luq")
+default_font_size = 22
+
+[node name="Main" type="Node"]
+script = ExtResource("1_jfje4")
+mob_scene = ExtResource("2_bok3b")
+
+[node name="Ground" type="StaticBody3D" parent="." groups=["ground"]]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+shape = SubResource("BoxShape3D_qvu5i")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh = SubResource("BoxMesh_2h0bt")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -8.9407e-08, 1, 0, -1, -8.9407e-08, 0, 15, 0)
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("1_8lvi8")]
+
+[node name="CameraPivot" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 4, 12)
+
+[node name="Cylinders" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cylinders"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 1, 15)
+mesh = SubResource("CylinderMesh_j0xks")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Cylinders"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1, 15)
+mesh = SubResource("CylinderMesh_j0xks")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Cylinders"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 1, -19)
+mesh = SubResource("CylinderMesh_j0xks")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Cylinders"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29, 1, -19)
+mesh = SubResource("CylinderMesh_j0xks")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="SpawnPath" type="Path3D" parent="."]
+curve = SubResource("Curve3D_ra0d2")
+
+[node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath"]
+transform = Transform3D(-4.37113e-08, 0, -0.999993, 0, 0.999985, 0, 0.999999, 0, -4.37111e-08, -11, 0, 15)
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="UserInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_vteln")
+
+[node name="ScoreLabel" type="Label" parent="UserInterface"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 37.0
+offset_right = 97.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Score: 0"
+script = ExtResource("5_fiu0p")
+
+[node name="Retry" type="ColorRect" parent="UserInterface"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
