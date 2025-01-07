@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bhd1qhhslbffe"]
+[gd_scene load_steps=13 format=3 uid="uid://bhd1qhhslbffe"]
 
 [ext_resource type="PackedScene" uid="uid://dyyx507xg4muv" path="res://player.tscn" id="1_8lvi8"]
 [ext_resource type="Script" path="res://main.gd" id="1_jfje4"]
@@ -9,7 +9,12 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_qvu5i"]
 size = Vector3(60, 2, 60)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_caq86"]
+transparency = 1
+albedo_color = Color(0.203922, 0.517647, 0.376471, 0.788235)
+
 [sub_resource type="BoxMesh" id="BoxMesh_2h0bt"]
+material = SubResource("StandardMaterial3D_caq86")
 size = Vector3(60, 2, 60)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6jinm"]
@@ -20,7 +25,7 @@ material = SubResource("StandardMaterial3D_6jinm")
 
 [sub_resource type="Curve3D" id="Curve3D_ra0d2"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -11, 0, 15, 0, 0, 0, 0, 0, 0, 12, 0, 15, 0, 0, 0, 0, 0, 0, 29, 0, -19, 0, 0, 0, 0, 0, 0, -31, 0, -19, 0, 0, 0, 0, 0, 0, -11, 0, 15),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -11, 0, 15, 0, 0, 0, 0, 0, 0, 12, 0, 15, 0, 0, 0, 0, 0, 0, 29, 0, -19, 0, 0, 0, 0, 0, 0, -29, 0, -19, 0, 0, 0, 0, 0, 0, -11, 0, 15),
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0)
 }
 point_count = 5
@@ -50,6 +55,7 @@ transform = Transform3D(1, 0, 0, 0, -8.9407e-08, 1, 0, -1, -8.9407e-08, 0, 15, 0
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_8lvi8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="CameraPivot" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
@@ -90,9 +96,11 @@ autostart = true
 
 [node name="UserInterface" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = SubResource("Theme_vteln")
 
 [node name="ScoreLabel" type="Label" parent="UserInterface"]
@@ -112,6 +120,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0.403922, 0, 0.427451, 0.270588)
+
+[node name="Label" type="Label" parent="UserInterface/Retry"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.5
+offset_top = -14.0
+offset_right = 110.5
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Press Enter to Retry"
 
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]

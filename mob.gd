@@ -23,6 +23,9 @@ func initialize(start_position, player_position):
 	velocity = Vector3.FORWARD * random_speed
 	velocity = velocity.rotated(Vector3.UP, rotation.y)
 	
+	# Initialize the speed of the animation based on the random speed.
+	$AnimationPlayer.speed_scale = random_speed / min_speed
+	
 	
 func squash():
 	squashed.emit()
