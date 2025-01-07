@@ -4,4 +4,4 @@ https://docs.godotengine.org/en/stable/getting_started/first_3d_game/index.html
 
 Here is a short video demonstrating the game.
 
-<video src='https://youtu.be/gSD5GFw80w8' width=180> </video>
+https://youtu.be/gSD5GFw80w8
