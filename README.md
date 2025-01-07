@@ -5,5 +5,3 @@ https://docs.godotengine.org/en/stable/getting_started/first_3d_game/index.html
 Here is a short video demonstrating the game.
 
 https://youtu.be/gSD5GFw80w8
-
-https://github.com/darcyMaz/first-3d-game-godot/blob/main/art/sq_the_creeps_3d_demo.mp4
